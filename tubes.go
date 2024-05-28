@@ -114,7 +114,7 @@ func bacaData(A *tabMhs) {
 		if *A[i].nilai >= 85 && *A[i].nilai <= 100 {
 			*A[i].isDiterima = "selamat anda diterima"
 		} else if *A[i].nilai < 85 {
-			*A[i].isDiterima = "lu goblok bang"
+			*A[i].isDiterima = "lu tolol"
 		} else {
 			*A[i].isDiterima = "salah kampus bang"
 		}
