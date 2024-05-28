@@ -13,7 +13,7 @@ type mahasiswa struct {
 type tabMhs [NMAX]mahasiswa
 
 func main() {
-	var masukan string
+	var masukan int
 	for {
 		fmt.Println("---------------")
 		fmt.Println("Selamat Datang!")
