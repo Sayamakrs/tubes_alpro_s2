@@ -14,6 +14,8 @@ type tabMhs [NMAX]mahasiswa
 
 func main() {
 	var masukan int
+	var A tabMhs
+	var n int
 	for {
 		fmt.Println("---------------")
 		fmt.Println("Selamat Datang!")
@@ -28,15 +30,17 @@ func main() {
 		if masukan == 1 {
 			password()
 		} else if masukan == 2 {
-			mainPendaftar()
+			mainPendaftar(A, n)
 		} else {
 			fmt.Println("Terima Kasih!")
 		}
 	}
 }
 
-func password() {
+func adminPassword() {
 	var pass string
+	var A tabMhs
+	var n int
 	for {
 		fmt.Println("---------------")
 		fmt.Println("Masukan Password: ")
@@ -44,12 +48,12 @@ func password() {
 		fmt.Println("---------------")
 
 		if pass == "sayaadmin" {
-			mainAdmin()
+			mainAdmin(A, n)
 		}
 	}
 }
 
-func mainAdmin() {
+func mainAdmin(A tabMhs, n int) {
 	var masukan int
 	for {
 		fmt.Println("---------------")
@@ -67,7 +71,7 @@ func mainAdmin() {
 		fmt.Println("---------------")
 
 		if masukan == 1 {
-			bacaData()
+			bacaData(&A, &n)
 		} else if masukan == 2 {
 			ubahData()
 		} else if masukan == 3 {
@@ -86,6 +90,7 @@ func mainAdmin() {
 
 func mainPendaftar() {
 	var masukan int
+
 	for {
 		fmt.Println("---------------")
 		fmt.Println("Selamat Datang Calon Mahasiswa!")
@@ -107,16 +112,19 @@ func mainPendaftar() {
 	}
 }
 
-func bacaData(A *tabMhs) {
+func bacaData(A *tabMhs, n *int) {
+	if *n > NMAX {
+		*n = NMAX
+	}
 	fmt.Println("Masukan data calon mahasiswa")
-	for i := 0; i < n; i++ {
+	for i := 0; i < *n; i++ {
 		fmt.Scan(&A[i].nama, &A[i].jurusan, &A[i].nilai)
-		if *A[i].nilai >= 85 && *A[i].nilai <= 100 {
-			*A[i].isDiterima = "selamat anda diterima"
-		} else if *A[i].nilai < 85 {
-			*A[i].isDiterima = "lu tolol"
+		if A[i].nilai >= 85 && A[i].nilai <= 100 {
+			A[i].isDiterima = true
+		} else if A[i].nilai < 85 {
+			A[i].isDiterima = false
 		} else {
-			*A[i].isDiterima = "salah kampus bang"
+			A[i].isDiterima = false
 		}
 	}
 }
@@ -125,10 +133,22 @@ func ubahData() {
 
 }
 
-func hapusData() {
+func hapusData(A tabMhs) {
+	var 
+	for i := A; i < JumlahMahasiswa-1; i++ {
+		DaftarMahasiswa[i] = DaftarMahasiswa[i+1]
+	}
+	JumlahMahasiswa--
 
+	for i := A; i < JumlahJurusan-1; i++ {
+		DaftarJurusan[i] = DaftarJurusan[i+1]
+	}
+	JumlahJurusan--
 }
 
-func tampilData() {
-
+func tampilData(A tabMhs, n int) {
+	fmt.Printf("%20s %6s %6s %6s\n", "Nama calon mahasiswa", "Jurusan calon mahasiswa", "Nilai calon mahasiswa")
+	for i = 0; i < n; i++ {
+		fmt.Printf("%20s %6s %6d\n", A[i].nama, A[i].jurusan, A[i].nilai)
+	}
 }
