@@ -154,7 +154,7 @@ func ubahData(A *tabMhs, n *int) {
 		if A[i].noPendaftar == noPendaftar {
 			found = true
 			fmt.Println("Data ditemukan:")
-			fmt.Printf("Nomor Pendaftar: %s\nNama: %s\nJurusan: %s\nNilai: %d\nDiterima: %v\n", A[i].noPendaftar, A[i].nama, A[i].jurusan, A[i].nilai, A[i].isDiterima)
+			fmt.Printf("Nomor Pendaftar: %d\nNama: %s\nJurusan: %s\nNilai: %d\nDiterima: %v\n", A[i].noPendaftar, A[i].nama, A[i].jurusan, A[i].nilai, A[i].isDiterima)
 
 			// Input data baru
 			fmt.Println("Masukkan data baru:")
