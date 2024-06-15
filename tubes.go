@@ -19,11 +19,12 @@ type tabMhs [NMAX]mahasiswa
 
 func initDummyDataMhs(A *tabMhs, n *int) {
 	A[0] = mahasiswa{103012300000, "Muhammad Aulia Khairu", "Informatika", 80, true}
-	A[1] = mahasiswa{103012300001, "Michael Jonatahan", "Teknik Elektro", 85, true}
-	A[2] = mahasiswa{103012300002, "Brian Anindya", "Kedokteran", 78, false}
-	A[3] = mahasiswa{103012300003, "Nabil Azzamy", "Teknik Sipil", 75, false}
-	A[4] = mahasiswa{103012300004, "Fairuztsani Kemal", "Informatika", 88, true}
-	*n = 5
+	A[1] = mahasiswa{103012300001, "Sanubari Nuraulia Legawa", "Informatika", 83, true}
+	A[2] = mahasiswa{103012300002, "Michael Jonatahan", "Teknik Elektro", 85, true}
+	A[3] = mahasiswa{103012300003, "Brian Anindya", "Kedokteran", 78, false}
+	A[4] = mahasiswa{103012300004, "Nabil Azzamy", "Teknik Sipil", 75, false}
+	A[5] = mahasiswa{103012300005, "Fairuztsani Kemal", "Informatika", 88, true}
+	*n = 6
 }
 
 func InputlnString(ptr *string) {
@@ -205,7 +206,7 @@ func hapusDataMahasiswa(A *tabMhs, nMhs *int, noPendaftar int) {
 		if A[i].noPendaftar == noPendaftar {
 			index = i
 			found = true
-			break
+			return
 		}
 	}
 
