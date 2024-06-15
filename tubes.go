@@ -44,7 +44,6 @@ func main() {
 		fmt.Println("Anda Login Sebagai: ")
 		fmt.Println("1. Administrator")
 		fmt.Println("2. Pendaftar")
-		fmt.Println("3. Keluar")
 		fmt.Println("=========================")
 		fmt.Print("Menu yang ingin dimasukan: ")
 		fmt.Scanln(&masukan)
@@ -54,7 +53,7 @@ func main() {
 		} else if masukan == 2 {
 			mainPendaftar(&A, &n)
 		} else {
-			fmt.Println("Terima Kasih!")
+			fmt.Println("Terima kasih")
 		}
 	}
 }
@@ -62,9 +61,6 @@ func main() {
 func adminPassword(A *tabMhs, n *int) {
 	var pass string
 	for {
-		//fmt.Println("====================")
-		// fmt.Println("Masukan Password: ")
-		// fmt.Println("====================")
 		fmt.Print("Password: ")
 		fmt.Scanln(&pass)
 
@@ -73,7 +69,8 @@ func adminPassword(A *tabMhs, n *int) {
 			return
 		}
 
-		fmt.Println("Password salah. Coba lagi")
+		fmt.Println("Maaf password yang anda masukan salah, silahkan coba lagi!")
+		fmt.Println("==========================================================")
 	}
 }
 
@@ -109,8 +106,11 @@ func mainAdmin(A *tabMhs, n *int) {
 			// cariData()
 		} else if masukan == 6 {
 			// urutData()
+		} else if masukan == 7 {
+			fmt.Println("Terima kasih!")
+			main()
 		} else {
-			fmt.Println("Terima Kasih!")
+
 		}
 	}
 }
@@ -132,8 +132,11 @@ func mainPendaftar(A *tabMhs, n *int) {
 			tampilData(*A, *n)
 		} else if masukan == 2 {
 			// cariData()
-		} else {
+		} else if masukan == 3 {
 			fmt.Println("Terima Kasih!")
+			main()
+		} else {
+
 		}
 	}
 }
@@ -166,6 +169,7 @@ func ubahData(A *tabMhs, n *int) {
 		if A[i].noPendaftar == noPendaftar {
 			found = true
 			indexToEdit = i
+			fmt.Println("------------------------------")
 			fmt.Println("Data ditemukan:")
 			fmt.Printf("Nomor Pendaftar: %d\nNama: %s\nJurusan: %s\nNilai: %d\nDiterima: %v\n", A[i].noPendaftar, A[i].nama, A[i].jurusan, A[i].nilai, A[i].isDiterima)
 			break
@@ -176,7 +180,7 @@ func ubahData(A *tabMhs, n *int) {
 		fmt.Println("Data dengan nomor pendaftar tersebut tidak ditemukan.")
 		return
 	}
-
+	fmt.Println("------------------------------")
 	fmt.Println("Masukkan data baru:")
 	fmt.Print("Nama: ")
 	InputlnString(&A[indexToEdit].nama)
@@ -218,9 +222,12 @@ func hapusDataMahasiswa(A *tabMhs, nMhs *int, noPendaftar int) {
 }
 
 func tampilData(A tabMhs, n int) {
-	fmt.Println("Data Calon Mahasiswa")
-	fmt.Printf("%-13s %-30s %-20s %3s\n", "Nomor Pendaftar", "Nama", "Jurusan", "Nilai")
+	fmt.Println("Data Calon Mahasiswa:")
+	fmt.Println("---------------------------------------------------------------------")
+	fmt.Printf("%-22s %-25s %-13s %s\n", "Nomor Pendaftar", "Nama", "Jurusan", "Nilai")
+	fmt.Println("---------------------------------------------------------------------")
 	for i := 0; i < n; i++ {
-		fmt.Printf("%-13d %-30s %-20s %3d\n", A[i].noPendaftar, A[i].nama, A[i].jurusan, A[i].nilai)
+		fmt.Printf("%-15d %-30s %-15s %3d\n", A[i].noPendaftar, A[i].nama, A[i].jurusan, A[i].nilai)
 	}
+	fmt.Println("---------------------------------------------------------------------")
 }
