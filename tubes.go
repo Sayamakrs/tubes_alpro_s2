@@ -1,6 +1,11 @@
 package main
 
-import "fmt"
+import (
+	"bufio"
+	"fmt"
+	"os"
+	"strings"
+)
 
 const NMAX int = 1000
 
@@ -10,15 +15,21 @@ type mahasiswa struct {
 	nilai         int
 	isDiterima    bool
 }
-
 type tabMhs [NMAX]mahasiswa
 
 func initDummyDataMhs(A *tabMhs, n *int) {
 	A[0] = mahasiswa{103012300000, "Muhammad Aulia Khairu", "Informatika", 80, true}
-	A[1] = mahasiswa{103012300001, "Mikel Jonatahan", "Teknik Elektro", 95, true}
-	A[2] = mahasiswa{103012300002, "Brian Anindya", "Kedokteran", 65, false}
+	A[1] = mahasiswa{103012300001, "Michael Jonatahan", "Teknik Elektro", 85, true}
+	A[2] = mahasiswa{103012300002, "Brian Anindya", "Kedokteran", 78, false}
+	A[3] = mahasiswa{103012300003, "Nabil Azzamy", "Teknik Sipil", 75, false}
+	A[4] = mahasiswa{103012300004, "Fairuztsani Kemal", "Informatika", 88, true}
+	*n = 5
+}
 
-	*n = 3
+func InputlnString(ptr *string) {
+	reader := bufio.NewReader(os.Stdin)
+	input, _ := reader.ReadString('\n')
+	*ptr = strings.TrimSpace(input)
 }
 
 func main() {
@@ -27,16 +38,15 @@ func main() {
 	var n int
 
 	initDummyDataMhs(&A, &n)
-
 	for {
-		fmt.Println("---------------")
+		fmt.Println("=========================")
 		fmt.Println("Selamat Datang!")
 		fmt.Println("Anda Login Sebagai: ")
 		fmt.Println("1. Administrator")
 		fmt.Println("2. Pendaftar")
 		fmt.Println("3. Keluar")
-		fmt.Println("---------------")
-		fmt.Print("Menu yang ingin dimasukan? ")
+		fmt.Println("=========================")
+		fmt.Print("Menu yang ingin dimasukan: ")
 		fmt.Scanln(&masukan)
 
 		if masukan == 1 {
@@ -52,10 +62,11 @@ func main() {
 func adminPassword(A *tabMhs, n *int) {
 	var pass string
 	for {
-		fmt.Println("---------------")
+		fmt.Println("====================")
 		fmt.Println("Masukan Password: ")
+		fmt.Println("====================")
+		fmt.Print("Password: ")
 		fmt.Scanln(&pass)
-		fmt.Println("---------------")
 
 		if pass == "sayaadmin" {
 			mainAdmin(A, n)
@@ -66,7 +77,7 @@ func adminPassword(A *tabMhs, n *int) {
 func mainAdmin(A *tabMhs, n *int) {
 	var masukan int
 	for {
-		fmt.Println("---------------")
+		fmt.Println("===================================")
 		fmt.Println("Selamat Datang Admin!")
 		fmt.Println("Silahkan Pilih Menu Berikut: ")
 		fmt.Println("1. Tambah data calon mahasiswa")
@@ -76,9 +87,9 @@ func mainAdmin(A *tabMhs, n *int) {
 		fmt.Println("5. Cari data calon mahasiswa")
 		fmt.Println("6. Urutkan data calon mahasiswa")
 		fmt.Println("7. Keluar")
+		fmt.Println("===================================")
 		fmt.Print("Menu yang ingin dimasukan: ")
 		fmt.Scanln(&masukan)
-		fmt.Println("---------------")
 
 		if masukan == 1 {
 			bacaData(A, n)
@@ -88,7 +99,6 @@ func mainAdmin(A *tabMhs, n *int) {
 			var noPendaftar int
 			fmt.Print("Nomor pendaftar calon mahasiswa yang ingin dihapus: ")
 			fmt.Scanln(&noPendaftar)
-
 			hapusDataMahasiswa(A, n, noPendaftar)
 		} else if masukan == 4 {
 			tampilData(*A, *n)
@@ -104,17 +114,16 @@ func mainAdmin(A *tabMhs, n *int) {
 
 func mainPendaftar(A *tabMhs, n *int) {
 	var masukan int
-
 	for {
-		fmt.Println("---------------")
+		fmt.Println("===================================")
 		fmt.Println("Selamat Datang Calon Mahasiswa!")
 		fmt.Println("Silahkan Pilih Menu Berikut: ")
 		fmt.Println("1. Tampilkan data calon mahasiswa")
 		fmt.Println("2. Cari data calon mahasiswa")
 		fmt.Println("3. Keluar")
+		fmt.Println("===================================")
 		fmt.Print("Menu yang ingin dimasukan: ")
 		fmt.Scanln(&masukan)
-		fmt.Println("---------------")
 
 		if masukan == 1 {
 			tampilData(*A, *n)
@@ -133,7 +142,7 @@ func bacaData(A *tabMhs, n *int) {
 	fmt.Println("Masukan data calon mahasiswa: ")
 	for i := 0; i < *n; i++ {
 		fmt.Scanln(&A[i].noPendaftar, &A[i].nama, &A[i].jurusan, &A[i].nilai)
-		if A[i].nilai >= 85 && A[i].nilai <= 100 {
+		if A[i].nilai >= 80 && A[i].nilai <= 100 {
 			A[i].isDiterima = true
 		} else if A[i].nilai < 85 {
 			A[i].isDiterima = false
@@ -149,15 +158,13 @@ func ubahData(A *tabMhs, n *int) {
 	fmt.Print("Masukan nomor pendaftar calon mahasiswa yang ingin diubah: ")
 	fmt.Scanln(&noPendaftar)
 	var indexToEdit int
-	// Cari mahasiswa berdasarkan NIM
+
 	for i := 0; i < *n; i++ {
 		if A[i].noPendaftar == noPendaftar {
 			found = true
 			indexToEdit = i
-
 			fmt.Println("Data ditemukan:")
 			fmt.Printf("Nomor Pendaftar: %d\nNama: %s\nJurusan: %s\nNilai: %d\nDiterima: %v\n", A[i].noPendaftar, A[i].nama, A[i].jurusan, A[i].nilai, A[i].isDiterima)
-
 			break
 		}
 	}
@@ -167,16 +174,14 @@ func ubahData(A *tabMhs, n *int) {
 		return
 	}
 
-	// Input data baru
 	fmt.Println("Masukkan data baru:")
 	fmt.Print("Nama: ")
-	fmt.Scanln(&A[indexToEdit].nama)
+	InputlnString(&A[indexToEdit].nama)
 	fmt.Print("Jurusan: ")
-	fmt.Scanln(&A[indexToEdit].jurusan)
+	InputlnString(&A[indexToEdit].jurusan)
 	fmt.Print("Nilai: ")
 	fmt.Scanln(&A[indexToEdit].nilai)
 
-	// Tentukan status diterima berdasarkan nilai
 	if A[indexToEdit].nilai >= 85 && A[indexToEdit].nilai <= 100 {
 		A[indexToEdit].isDiterima = true
 	} else {
@@ -188,7 +193,7 @@ func ubahData(A *tabMhs, n *int) {
 func hapusDataMahasiswa(A *tabMhs, nMhs *int, noPendaftar int) {
 	var index int
 	found := false
-	// Bisa dijadiin searching sequentially
+
 	for i := 0; i < *nMhs-1; i++ {
 		if A[i].noPendaftar == noPendaftar {
 			index = i
@@ -196,6 +201,7 @@ func hapusDataMahasiswa(A *tabMhs, nMhs *int, noPendaftar int) {
 			break
 		}
 	}
+
 	if found {
 		for i := index; i < *nMhs-1; i++ {
 			A[i] = A[i+1]
@@ -208,7 +214,6 @@ func hapusDataMahasiswa(A *tabMhs, nMhs *int, noPendaftar int) {
 	}
 }
 
-// Fungsi tampilData untuk menampilkan data calon mahasiswa
 func tampilData(A tabMhs, n int) {
 	fmt.Println("Data Calon Mahasiswa")
 	fmt.Printf("%-13s %-30s %-20s %3s\n", "Nomor Pendaftar", "Nama", "Jurusan", "Nilai")
