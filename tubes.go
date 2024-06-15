@@ -246,11 +246,10 @@ func hapusDataMahasiswa(A *tabMhs, nMhs *int, noPendaftar int) {
 	var index int
 	found := false
 
-	for i := 0; i < *nMhs-1; i++ {
+	for i := 0; i < *nMhs-1 || !found; i++ {
 		if A[i].noPendaftar == noPendaftar {
 			index = i
 			found = true
-			return
 		}
 	}
 
