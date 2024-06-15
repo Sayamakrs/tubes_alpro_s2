@@ -148,37 +148,41 @@ func ubahData(A *tabMhs, n *int) {
 	var found bool
 	fmt.Print("Masukan nomor pendaftar calon mahasiswa yang ingin diubah: ")
 	fmt.Scanln(&noPendaftar)
-
+	var indexToEdit int
 	// Cari mahasiswa berdasarkan NIM
 	for i := 0; i < *n; i++ {
 		if A[i].noPendaftar == noPendaftar {
 			found = true
+			indexToEdit = i
+
 			fmt.Println("Data ditemukan:")
 			fmt.Printf("Nomor Pendaftar: %d\nNama: %s\nJurusan: %s\nNilai: %d\nDiterima: %v\n", A[i].noPendaftar, A[i].nama, A[i].jurusan, A[i].nilai, A[i].isDiterima)
 
-			// Input data baru
-			fmt.Println("Masukkan data baru:")
-			fmt.Print("Nama: ")
-			fmt.Scanln(&A[i].nama)
-			fmt.Print("Jurusan: ")
-			fmt.Scanln(&A[i].jurusan)
-			fmt.Print("Nilai: ")
-			fmt.Scanln(&A[i].nilai)
-
-			// Tentukan status diterima berdasarkan nilai
-			if A[i].nilai >= 85 && A[i].nilai <= 100 {
-				A[i].isDiterima = true
-			} else {
-				A[i].isDiterima = false
-			}
-			fmt.Println("Data berhasil diubah.")
 			break
 		}
 	}
 
 	if !found {
 		fmt.Println("Data dengan nomor pendaftar tersebut tidak ditemukan.")
+		return
 	}
+
+	// Input data baru
+	fmt.Println("Masukkan data baru:")
+	fmt.Print("Nama: ")
+	fmt.Scanln(&A[indexToEdit].nama)
+	fmt.Print("Jurusan: ")
+	fmt.Scanln(&A[indexToEdit].jurusan)
+	fmt.Print("Nilai: ")
+	fmt.Scanln(&A[indexToEdit].nilai)
+
+	// Tentukan status diterima berdasarkan nilai
+	if A[indexToEdit].nilai >= 85 && A[indexToEdit].nilai <= 100 {
+		A[indexToEdit].isDiterima = true
+	} else {
+		A[indexToEdit].isDiterima = false
+	}
+	fmt.Println("Data berhasil diubah.")
 }
 
 func hapusDataMahasiswa(A *tabMhs, nMhs *int, noPendaftar int) {
@@ -209,6 +213,6 @@ func tampilData(A tabMhs, n int) {
 	fmt.Println("Data Calon Mahasiswa")
 	fmt.Printf("%-13s %-30s %-20s %3s\n", "Nomor Pendaftar", "Nama", "Jurusan", "Nilai")
 	for i := 0; i < n; i++ {
-		fmt.Printf("%-13s %-30s %-20s %3d\n", A[i].noPendaftar, A[i].nama, A[i].jurusan, A[i].nilai)
+		fmt.Printf("%-13d %-30s %-20s %3d\n", A[i].noPendaftar, A[i].nama, A[i].jurusan, A[i].nilai)
 	}
 }
