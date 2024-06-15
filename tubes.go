@@ -5,7 +5,7 @@ import "fmt"
 const NMAX int = 1000
 
 type mahasiswa struct {
-	nim           string
+	noPendaftar   int
 	nama, jurusan string
 	nilai         int
 	isDiterima    bool
@@ -14,9 +14,9 @@ type mahasiswa struct {
 type tabMhs [NMAX]mahasiswa
 
 func initDummyDataMhs(A *tabMhs, n *int) {
-	A[0] = mahasiswa{"103012300000", "Aulia Khairu Rizqy Sembiring", "Informatika", 80, true}
-	A[1] = mahasiswa{"103012300001", "Mikel Jonatahan", "Teknik Elektro", 95, true}
-	A[2] = mahasiswa{"103012300002", "Brian Anindya", "Kedokteran", 65, false}
+	A[0] = mahasiswa{103012300000, "Muhammad Aulia Khairu", "Informatika", 80, true}
+	A[1] = mahasiswa{103012300001, "Mikel Jonatahan", "Teknik Elektro", 95, true}
+	A[2] = mahasiswa{103012300002, "Brian Anindya", "Kedokteran", 65, false}
 
 	*n = 3
 }
@@ -85,9 +85,9 @@ func mainAdmin(A *tabMhs, n *int) {
 		} else if masukan == 2 {
 			ubahData()
 		} else if masukan == 3 {
-			var nim string
-			fmt.Print("NIM yang akan dihapus: ")
-			fmt.Scanln(&nim)
+			var noPendaftar int
+			fmt.Print("Nomor pendaftar calon mahasiswa yang ingin dihapus: ")
+			fmt.Scanln(&noPendaftar)
 
 			hapusDataMahasiswa(A, n, nim)
 		} else if masukan == 4 {
@@ -130,9 +130,9 @@ func bacaData(A *tabMhs, n *int) {
 	if *n > NMAX {
 		*n = NMAX
 	}
-	fmt.Println("Masukan data calon mahasiswa")
+	fmt.Println("Masukan data calon mahasiswa: ")
 	for i := 0; i < *n; i++ {
-		fmt.Scanln(&A[i].nama, &A[i].jurusan, &A[i].nilai)
+		fmt.Scanln(&A[i].noPendaftar, &A[i].nama, &A[i].jurusan, &A[i].nilai)
 		if A[i].nilai >= 85 && A[i].nilai <= 100 {
 			A[i].isDiterima = true
 		} else if A[i].nilai < 85 {
@@ -144,30 +144,73 @@ func bacaData(A *tabMhs, n *int) {
 }
 
 func ubahData() {
-
-}
-
-func hapusDataMahasiswa(A *tabMhs, nMhs *int, nim string) {
-	var index int
-
-	// Bisa dijadiin searching sequentially
-	for i := 0; i < *nMhs-1; i++ {
-		if A[i].nim == nim {
-			index = i
+	func ubahData(A *tabMhs, n *int) {
+		var noPendaftar int
+		var found bool
+		fmt.Print("Masukan nomor pendaftar calon mahasiswa yang ingin diubah: ")
+		fmt.Scanln(&noPendaftar)
+	
+		// Cari mahasiswa berdasarkan NIM
+		for i := 0; i < *n; i++ {
+			if A[i].noPendaftar == noPendaftar {
+				found = true
+				fmt.Println("Data ditemukan:")
+				fmt.Printf("Nomor Pendaftar: %s\nNama: %s\nJurusan: %s\nNilai: %d\nDiterima: %v\n", A[i].noPendaftar, A[i].nama, A[i].jurusan, A[i].nilai, A[i].isDiterima)
+				
+				// Input data baru
+				fmt.Println("Masukkan data baru:")
+				fmt.Print("Nama: ")
+				fmt.Scanln(&A[i].nama)
+				fmt.Print("Jurusan: ")
+				fmt.Scanln(&A[i].jurusan)
+				fmt.Print("Nilai: ")
+				fmt.Scanln(&A[i].nilai)
+				
+				// Tentukan status diterima berdasarkan nilai
+				if A[i].nilai >= 85 && A[i].nilai <= 100 {
+					A[i].isDiterima = true
+				} else {
+					A[i].isDiterima = false
+				}
+				fmt.Println("Data berhasil diubah.")
+				break
+			}
+		}
+	
+		if !found {
+			fmt.Println("Data dengan nomor pendaftar tersebut tidak ditemukan.")
 		}
 	}
-
-	for i := index; i < *nMhs-1; i++ {
-		A[i] = A[i+1]
-	}
-
-	*nMhs--
 }
+
+func hapusDataMahasiswa(A *tabMhs, nMhs *int, noPendaftar int) {
+	var index int
+	found := false
+	// Bisa dijadiin searching sequentially
+	for i := 0; i < *nMhs-1; i++ {
+		if A[i].noPendaftar == noPendaftar {
+			index = i
+			found = true
+			break
+		}
+	}
+	if found {
+		for i := index; i < *nMhs-1; i++ {
+			A[i] = A[i+1]
+		}
+	*nMhs--
+	fmt.Println("Data mahasiswa berhasil dihapus.")
+
+	} else {
+		fmt.Println("Data dengan nomor pendaftar tersebut tidak ditemukan.")
+	}
+}
+
 
 // Fungsi tampilData untuk menampilkan data calon mahasiswa
 func tampilData(A tabMhs, n int) {
 	fmt.Println("Data Calon Mahasiswa")
-	fmt.Printf("%-13s %-30s %-20s %3s\n", "NIM", "Nama", "Jurusan", "Nilai")
+	fmt.Printf("%-13s %-30s %-20s %3s\n", "Nomor Pendaftar", "Nama", "Jurusan", "Nilai")
 	for i := 0; i < n; i++ {
 		fmt.Printf("%-13s %-30s %-20s %3d\n", A[i].nim, A[i].nama, A[i].jurusan, A[i].nilai)
 	}
