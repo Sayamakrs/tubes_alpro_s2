@@ -62,15 +62,18 @@ func main() {
 func adminPassword(A *tabMhs, n *int) {
 	var pass string
 	for {
-		fmt.Println("====================")
-		fmt.Println("Masukan Password: ")
-		fmt.Println("====================")
+		//fmt.Println("====================")
+		// fmt.Println("Masukan Password: ")
+		// fmt.Println("====================")
 		fmt.Print("Password: ")
 		fmt.Scanln(&pass)
 
 		if pass == "sayaadmin" {
 			mainAdmin(A, n)
+			return
 		}
+
+		fmt.Println("Password salah. Coba lagi")
 	}
 }
 

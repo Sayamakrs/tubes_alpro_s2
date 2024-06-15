@@ -2,6 +2,6 @@ package main
 
 import "fmt"
 
-func main() {
+func test() {
 	fmt.Println(len("Muhammad Aulia Khairu Rizky Sembiring"))
 }
