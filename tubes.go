@@ -143,44 +143,79 @@ func mainPendaftar(A *tabMhs, n *int) {
 }
 
 func bacaData(A *tabMhs, n *int) {
-	if *n > NMAX {
-		*n = NMAX
-	}
-	fmt.Println("Masukan data calon mahasiswa: ")
-	for i := 0; i < *n; i++ {
-		fmt.Scanln(&A[i].noPendaftar, &A[i].nama, &A[i].jurusan, &A[i].nilai)
-		if A[i].nilai >= 80 && A[i].nilai <= 100 {
-			A[i].isDiterima = true
-		} else if A[i].nilai < 85 {
-			A[i].isDiterima = false
+	if *n == NMAX {
+		fmt.Println("Maaf, kapasitas data calon mahasiswa sudah penuh.")
+	} else {
+		fmt.Print("Masukkan nomor pendaftar: ")
+		fmt.Scanln(&A[*n].noPendaftar)
+		fmt.Print("Masukkan nama calon mahasiswa: ")
+		InputlnString(&A[*n].nama)
+		fmt.Print("Masukkan nama jurusan: ")
+		InputlnString(&A[*n].jurusan)
+
+		// Input dulu pertama kali
+		fmt.Print("Masukkan nilai calon mahasiswa: ")
+		fmt.Scanln(&A[*n].nilai)
+
+		// Kalau input nilainya not in range 0 sampe 100, dia loop sampe nilainya di range 0-100
+		for !(A[*n].nilai >= 0 && A[*n].nilai <= 100) {
+			// Kirim warning
+			fmt.Printf("Nilai tidak valid! Harus memenuhi {nilai ∈ %c, 0 <= nilai <= 100}\n", '\u2124')
+
+			// Input lagi
+			fmt.Print("Masukkan nilai calon mahasiswa: ")
+			fmt.Scanln(&A[*n].nilai)
+		}
+
+		if A[*n].nilai >= 80 && A[*n].nilai <= 100 {
+			A[*n].isDiterima = true
 		} else {
-			A[i].isDiterima = false
+			A[*n].isDiterima = false
+		}
+
+		*n++
+
+		fmt.Println("Data berhasil ditambah!")
+	}
+}
+
+// doSequentialSearch pencarian urut (sequential search) pada array A
+// buat nemuin elemen dengan noPendaftar tertentu.
+//
+// Parameternya:
+// - A: pointer ke array tabMhs yang isinya daftar mahasiswa.
+// - n: pointer ke integer yang nunjukin jumlah data di dalem array A.
+// - noPendaftarToFind: integer nomor pendaftar yang mau dicari.
+//
+// Return:
+// - Jika elemen dengan noPendaftar ditemukan, fungsi bakal return indeks elemen tersebut dalam array A.
+// - Jika elemen dengan noPendaftar gak  ditemukan, fungsi return -1.
+func doSequentialSearch(A *tabMhs, n *int, noPendaftarToFind int) int {
+	// Iterasi through every elemen array A, dari indeks 0 hingga n-1
+	for i := 0; i < *n; i++ {
+		// Jika noPendaftar dari elemen A[i] sama dengan noPendaftarToFind
+		if A[i].noPendaftar == noPendaftarToFind {
+			// Kembalikan indeks elemen karena udah ditemuin
+			return i
 		}
 	}
+	// Jika tidak ditemukan elemen dengan noPendaftar yang cocok, kembalikan -1
+	return -1
 }
 
 func ubahData(A *tabMhs, n *int) {
 	var noPendaftar int
-	var found bool
+
 	fmt.Print("Masukan nomor pendaftar calon mahasiswa yang ingin diubah: ")
 	fmt.Scanln(&noPendaftar)
-	var indexToEdit int
 
-	for i := 0; i < *n; i++ {
-		if A[i].noPendaftar == noPendaftar {
-			found = true
-			indexToEdit = i
-			fmt.Println("------------------------------")
-			fmt.Println("Data ditemukan:")
-			fmt.Printf("Nomor Pendaftar: %d\nNama: %s\nJurusan: %s\nNilai: %d\nDiterima: %v\n", A[i].noPendaftar, A[i].nama, A[i].jurusan, A[i].nilai, A[i].isDiterima)
-			break
-		}
-	}
+	var indexToEdit int = doSequentialSearch(A, n, noPendaftar)
 
-	if !found {
+	if indexToEdit == -1 {
 		fmt.Println("Data dengan nomor pendaftar tersebut tidak ditemukan.")
 		return
 	}
+
 	fmt.Println("------------------------------")
 	fmt.Println("Masukkan data baru:")
 	fmt.Print("Nama: ")
@@ -189,6 +224,15 @@ func ubahData(A *tabMhs, n *int) {
 	InputlnString(&A[indexToEdit].jurusan)
 	fmt.Print("Nilai: ")
 	fmt.Scanln(&A[indexToEdit].nilai)
+
+	for !(A[indexToEdit].nilai >= 0 && A[indexToEdit].nilai <= 100) {
+		// Kirim warning
+		fmt.Printf("Nilai tidak valid! Harus memenuhi {nilai ∈ %c, 0 <= nilai <= 100}\n", '\u2124')
+
+		// Input lagi
+		fmt.Print("Masukkan lagi nilai calon mahasiswa: ")
+		fmt.Scanln(&A[indexToEdit].nilai)
+	}
 
 	if A[indexToEdit].nilai >= 85 && A[indexToEdit].nilai <= 100 {
 		A[indexToEdit].isDiterima = true
