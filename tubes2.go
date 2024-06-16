@@ -155,9 +155,9 @@ func bacaData(A *tabMhs, n *int) {
 		fmt.Scanln(&A[*n].nilai)
 
 		for !(A[*n].nilai >= 0 && A[*n].nilai <= 100) {
-			fmt.Print("Nilai yang dimasukan tidak valid")
+			fmt.Println("Nilai yang dimasukan tidak valid")
 
-			fmt.Println("Masukkan nilai calon mahasiswa: ")
+			fmt.Print("Masukkan nilai calon mahasiswa: ")
 			fmt.Scanln(&A[*n].nilai)
 		}
 
@@ -202,9 +202,9 @@ func ubahData(A *tabMhs, n *int) {
 	fmt.Scanln(&A[indexToEdit].nilai)
 
 	for !(A[indexToEdit].nilai >= 0 && A[indexToEdit].nilai <= 100) {
-		fmt.Print("Nilai yang dimasukan tidak valid!")
+		fmt.Println("Nilai yang dimasukan tidak valid!")
 
-		fmt.Println("Masukkan lagi nilai calon mahasiswa: ")
+		fmt.Print("Masukkan lagi nilai calon mahasiswa: ")
 		fmt.Scanln(&A[indexToEdit].nilai)
 	}
 
@@ -224,7 +224,6 @@ func hapusDataMahasiswa(A *tabMhs, nMhs *int, noPendaftar int) {
 		if A[i].noPendaftar == noPendaftar {
 			index = i
 			found = true
-			return
 		}
 	}
 
