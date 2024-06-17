@@ -41,21 +41,25 @@ func main() {
 
 	initDummyDataMhs(&A, &n)
 	for {
-		fmt.Println("=========================")
+		fmt.Println("========================")
 		fmt.Println("Selamat Datang!")
 		fmt.Println("Anda Login Sebagai: ")
 		fmt.Println("1. Administrator")
 		fmt.Println("2. Pendaftar")
-		fmt.Println("=========================")
-		fmt.Print("Menu yang ingin dimasukan: ")
+		fmt.Println("3. Keluar")
+		fmt.Println("========================")
+		fmt.Print("Masukan Pilihan Anda: ")
 		fmt.Scanln(&masukan)
 
 		if masukan == 1 {
 			adminPassword(&A, &n)
 		} else if masukan == 2 {
 			mainPendaftar(&A, &n)
+		} else if masukan == 3 {
+			fmt.Println("Terima Kasih!")
+			os.Exit(0)
 		} else {
-			fmt.Println("Terima kasih")
+
 		}
 	}
 }
@@ -87,9 +91,10 @@ func mainAdmin(A *tabMhs, n *int) {
 		fmt.Println("4. Tampilkan data calon mahasiswa")
 		fmt.Println("5. Cari data calon mahasiswa")
 		fmt.Println("6. Urutkan data calon mahasiswa")
-		fmt.Println("7. Keluar")
+		fmt.Println("7. Kembali")
+		fmt.Println("8. Keluar")
 		fmt.Println("===================================")
-		fmt.Print("Menu yang ingin dimasukan: ")
+		fmt.Print("Masukan Pilihan Anda: ")
 		fmt.Scanln(&masukan)
 
 		if masukan == 1 {
@@ -98,7 +103,8 @@ func mainAdmin(A *tabMhs, n *int) {
 			ubahData(A, n)
 		} else if masukan == 3 {
 			var noPendaftar int
-			fmt.Print("Nomor pendaftar calon mahasiswa yang ingin dihapus: ")
+			fmt.Println("--------------------------------------------")
+			fmt.Print("Masukan Nomor pendaftar yang ingin dihapus: ")
 			fmt.Scanln(&noPendaftar)
 			hapusDataMahasiswa(A, n, noPendaftar)
 		} else if masukan == 4 {
@@ -108,8 +114,10 @@ func mainAdmin(A *tabMhs, n *int) {
 		} else if masukan == 6 {
 			selectUrutData(A, *n)
 		} else if masukan == 7 {
-			fmt.Println("Terima kasih!")
 			main()
+		} else if masukan == 8 {
+			fmt.Println("Terima Kasih!")
+			os.Exit(0)
 		} else {
 
 		}
@@ -125,9 +133,10 @@ func mainPendaftar(A *tabMhs, n *int) {
 		fmt.Println("1. Tampilkan data calon mahasiswa")
 		fmt.Println("2. Cari data calon mahasiswa")
 		fmt.Println("3. Urut data calon mahasiswa")
-		fmt.Println("4. Keluar")
+		fmt.Println("4. Kembali")
+		fmt.Println("5. Keluar")
 		fmt.Println("===================================")
-		fmt.Print("Menu yang ingin dimasukan: ")
+		fmt.Print("Masukan Pilihan Anda: ")
 		fmt.Scanln(&masukan)
 
 		if masukan == 1 {
@@ -137,29 +146,35 @@ func mainPendaftar(A *tabMhs, n *int) {
 		} else if masukan == 3 {
 			selectUrutData(A, *n)
 		} else if masukan == 4 {
-			fmt.Println("Terima Kasih!")
 			main()
+		} else if masukan == 5 {
+			fmt.Println("Terima Kasih!")
+			os.Exit(0)
+		} else {
+
 		}
 	}
 }
 
 func bacaData(A *tabMhs, n *int) {
 	if *n == NMAX {
-		fmt.Println("Maaf, kapasitas data calon mahasiswa sudah penuh.")
+		fmt.Println("-------------------------------------------------")
+		fmt.Println("Maaf, kapasitas data calon mahasiswa sudah penuh!")
 	} else {
-		fmt.Print("Masukkan nomor pendaftar: ")
+		fmt.Println("-----------------------------")
+		fmt.Print("Masukan nomor pendaftar: ")
 		fmt.Scanln(&A[*n].noPendaftar)
-		fmt.Print("Masukkan nama calon mahasiswa: ")
+		fmt.Print("Masukan nama calon mahasiswa: ")
 		InputlnString(&A[*n].nama)
-		fmt.Print("Masukkan nama jurusan: ")
+		fmt.Print("Masukan nama jurusan: ")
 		InputlnString(&A[*n].jurusan)
-		fmt.Print("Masukkan nilai calon mahasiswa: ")
+		fmt.Print("Masukan nilai calon mahasiswa: ")
 		fmt.Scanln(&A[*n].nilai)
 
 		for !(A[*n].nilai >= 0 && A[*n].nilai <= 100) {
-			fmt.Println("Nilai yang dimasukan tidak valid")
+			fmt.Println("Nilai yang dimasukan tidak valid!")
 
-			fmt.Print("Masukkan nilai calon mahasiswa: ")
+			fmt.Print("Masukan nilai calon mahasiswa: ")
 			fmt.Scanln(&A[*n].nilai)
 		}
 
@@ -172,7 +187,7 @@ func bacaData(A *tabMhs, n *int) {
 		}
 		*n++
 
-		fmt.Println("Data berhasil ditambah!")
+		fmt.Println("Data calon mahasiswa berhasil ditambah!")
 	}
 }
 
@@ -192,12 +207,12 @@ func ubahData(A *tabMhs, n *int) {
 
 	var indexToEdit int = doSequentialSearch(A, n, noPendaftar)
 	if indexToEdit == -1 {
-		fmt.Println("Data dengan nomor pendaftar tersebut tidak ditemukan.")
+		fmt.Println("Data dengan nomor pendaftar tersebut tidak ditemukan!")
 		return
 	}
 
-	fmt.Println("------------------------------")
-	fmt.Println("Masukkan data baru:")
+	fmt.Println("--------------------")
+	fmt.Println("Masukan data baru:")
 	fmt.Print("Nama: ")
 	InputlnString(&A[indexToEdit].nama)
 	fmt.Print("Jurusan: ")
@@ -208,7 +223,7 @@ func ubahData(A *tabMhs, n *int) {
 	for !(A[indexToEdit].nilai >= 0 && A[indexToEdit].nilai <= 100) {
 		fmt.Println("Nilai yang dimasukan tidak valid!")
 
-		fmt.Print("Masukkan lagi nilai calon mahasiswa: ")
+		fmt.Print("Masukan lagi nilai calon mahasiswa: ")
 		fmt.Scanln(&A[indexToEdit].nilai)
 	}
 
@@ -219,7 +234,7 @@ func ubahData(A *tabMhs, n *int) {
 		A[indexToEdit].isDiterima = false
 		A[indexToEdit].status = "Ditolak"
 	}
-	fmt.Println("Data berhasil diubah.")
+	fmt.Println("Data calon mahasiswa berhasil diubah!")
 }
 
 func hapusDataMahasiswa(A *tabMhs, nMhs *int, noPendaftar int) {
@@ -238,33 +253,39 @@ func hapusDataMahasiswa(A *tabMhs, nMhs *int, noPendaftar int) {
 			A[i] = A[i+1]
 		}
 		*nMhs--
-		fmt.Println("Data calon mahasiswa berhasil dihapus.")
+		fmt.Println("Data calon mahasiswa berhasil dihapus!")
 
 	} else {
-		fmt.Println("Data dengan nomor pendaftar tersebut tidak ditemukan.")
+		fmt.Println("Data dengan nomor pendaftar tersebut tidak ditemukan!")
 	}
 }
 
 func tampilData(A tabMhs, n int) {
 	fmt.Println("Data Calon Mahasiswa:")
-	fmt.Println("---------------------------------------------------------------------")
-	fmt.Printf("%-22s %-25s %-13s %s %-8s\n", "Nomor Pendaftar", "Nama", "Jurusan", "Nilai", "Status")
-	fmt.Println("---------------------------------------------------------------------")
+	fmt.Println("-----------------------------------------------------------------------------")
+	fmt.Printf("%-21s %-23s %-14s %-7s %s\n", "Nomor Pendaftar", "Nama", "Jurusan", "Nilai", "Status")
+	fmt.Println("-----------------------------------------------------------------------------")
 	for i := 0; i < n; i++ {
-		fmt.Printf("%-15d %-30s %-15s %3d %-12s\n", A[i].noPendaftar, A[i].nama, A[i].jurusan, A[i].nilai, A[i].status)
+		fmt.Printf("%-15d %-27s %-17s %-5d %-8s\n", A[i].noPendaftar, A[i].nama, A[i].jurusan, A[i].nilai, A[i].status)
 	}
-	fmt.Println("---------------------------------------------------------------------")
+	fmt.Println("-----------------------------------------------------------------------------")
 }
 
 func selectCariData(A *tabMhs, n *int) {
 	var ind int
 
-	fmt.Println("Cari berdasarkan:")
+	fmt.Println("=============================")
+	fmt.Println("Silahkan Pilih Menu Berikut: ")
+	fmt.Println("Cari berdasarkan: ")
 	fmt.Println("1. Nomor Pendaftar")
 	fmt.Println("2. Nama")
 	fmt.Println("3. Jurusan")
 	fmt.Println("4. Status")
-	fmt.Print("Masukkan pilihan anda: ")
+	fmt.Println("-----------------------------")
+	fmt.Println("5. Kembali")
+	fmt.Println("6. Keluar")
+	fmt.Println("=============================")
+	fmt.Print("Masukan Pilihan Anda: ")
 	fmt.Scanln(&ind)
 	if ind == 1 {
 		cariNoPes(A, *n)
@@ -274,9 +295,13 @@ func selectCariData(A *tabMhs, n *int) {
 		cariJurusan(*A, *n)
 	} else if ind == 4 {
 		cariStatus(*A, *n)
-	} else {
-		fmt.Println("Tidak ada opsi tersebut")
+	} else if ind == 5 {
 		main()
+	} else if ind == 6 {
+		fmt.Println("Terima Kasih!")
+		os.Exit(0)
+	} else {
+
 	}
 
 }
@@ -303,8 +328,8 @@ func cariNoPes(A *tabMhs, n int) {
 		pass++
 	}
 
-	fmt.Println("---------------------------------------------")
-	fmt.Print("Masukkan nomor pendaftar yang akan dicari: ")
+	fmt.Println("------------------------------------------")
+	fmt.Print("Masukan nomor pendaftar yang akan dicari: ")
 	fmt.Scanln(&no)
 
 	for left <= right && !found {
@@ -320,73 +345,101 @@ func cariNoPes(A *tabMhs, n int) {
 	}
 
 	if foundIndex == -1 {
-		fmt.Println("Tidak Ada Data Pendaftar yang Dicari")
+		fmt.Println("Data nomor pendaftar tersebut tidak ditemukan!")
 	} else {
+		fmt.Println("Data calon mahasiswa ditemukan: ")
+		fmt.Println("-----------------------------------------------------------------------------")
 		fmt.Printf("%-22s %-25s %-13s %s %-8s\n", "Nomor Pendaftar", "Nama", "Jurusan", "Nilai", "Status")
+		fmt.Println("-----------------------------------------------------------------------------")
 		fmt.Printf("%-15d %-30s %-15s %3d %-12s\n", A[foundIndex].noPendaftar, A[foundIndex].nama, A[foundIndex].jurusan, A[foundIndex].nilai, A[foundIndex].status)
+		fmt.Println("-----------------------------------------------------------------------------")
 	}
 
 }
 
 func cariNama(A tabMhs, n int) {
 	var nama string
-	var i int = 0
+	fmt.Println("-----------------------------------------")
+	fmt.Print("Masukan nama pendaftar yang akan dicari: ")
+	InputlnString(&nama)
+	var found bool
 
-	fmt.Println("---------------------------------------------")
-	fmt.Print("Masukkan nama pendaftar yang akan dicari: ")
-	fmt.Scanln(&nama)
-
-	for i < n {
+	for i := 0; i < n; i++ {
 		if A[i].nama == nama {
-			fmt.Printf("%-22s %-25s %-13s %s %-8s\n", "Nomor Pendaftar", "Nama", "Jurusan", "Nilai", "Status")
-			fmt.Printf("%-15d %-30s %-15s %3d %-12s\n", A[i].noPendaftar, A[i].nama, A[i].jurusan, A[i].nilai, A[i].status)
+			found = true
+			fmt.Println("Data calon mahasiswa ditemukan:")
+			fmt.Println("-----------------------------------------------------------------------------")
+			fmt.Printf("%-21s %-23s %-14s %-7s %s\n", "Nomor Pendaftar", "Nama", "Jurusan", "Nilai", "Status")
+			fmt.Println("-----------------------------------------------------------------------------")
+			fmt.Printf("%-15d %-27s %-17s %-5d %-8s\n", A[i].noPendaftar, A[i].nama, A[i].jurusan, A[i].nilai, A[i].status)
+			fmt.Println("-----------------------------------------------------------------------------")
 		}
-		i++
+	}
+	if !found {
+		fmt.Println("Data nama pendaftar tersebut tidak ditemukan!")
 	}
 }
 
 func cariJurusan(A tabMhs, n int) {
 	var jurusan string
-	var i int = 0
+	fmt.Println("--------------------------------------------")
+	fmt.Print("Masukan jurusan pendaftar yang akan dicari: ")
+	InputlnString(&jurusan)
+	var found bool
 
-	fmt.Println("---------------------------------------------")
-	fmt.Print("Masukkan jurusan yang akan dicari: ")
-	fmt.Scanln(&jurusan)
-
-	for i < n {
+	for i := 0; i < n; i++ {
 		if A[i].jurusan == jurusan {
-			fmt.Printf("%-22s %-25s %-13s %s %-8s\n", "Nomor Pendaftar", "Nama", "Jurusan", "Nilai", "Status")
-			fmt.Printf("%-15d %-30s %-15s %3d %-12s\n", A[i].noPendaftar, A[i].nama, A[i].jurusan, A[i].nilai, A[i].status)
+			found = true
+			fmt.Println("Data calon mahasiswa ditemukan:")
+			fmt.Println("-----------------------------------------------------------------------------")
+			fmt.Printf("%-21s %-23s %-14s %-7s %s\n", "Nomor Pendaftar", "Nama", "Jurusan", "Nilai", "Status")
+			fmt.Println("-----------------------------------------------------------------------------")
+			fmt.Printf("%-15d %-27s %-17s %-5d %-8s\n", A[i].noPendaftar, A[i].nama, A[i].jurusan, A[i].nilai, A[i].status)
+			fmt.Println("-----------------------------------------------------------------------------")
 		}
-		i++
+	}
+	if !found {
+		fmt.Println("Data jurusan pendaftar tersebut tidak ditemukan!")
 	}
 }
 
 func cariStatus(A tabMhs, n int) {
 	var status bool
-	var i int = 0
-
-	fmt.Println("---------------------------------------------")
-	fmt.Print("Masukkan status yang akan dicari: ")
+	fmt.Println("---------------------------------")
+	fmt.Print("Masukan status yang akan dicari: ")
 	fmt.Scanln(&status)
+	var found bool
 
-	for i < n {
+	for i := 0; i < n; i++ {
 		if A[i].isDiterima == status {
-			fmt.Printf("%-22s %-25s %-13s %s %-8s\n", "Nomor Pendaftar", "Nama", "Jurusan", "Nilai", "Status")
-			fmt.Printf("%-15d %-30s %-15s %3d %-12s\n", A[i].noPendaftar, A[i].nama, A[i].jurusan, A[i].nilai, A[i].status)
+			found = true
+			fmt.Println("Data calon mahasiswa ditemukan:")
+			fmt.Println("-----------------------------------------------------------------------------")
+			fmt.Printf("%-21s %-23s %-14s %-7s %s\n", "Nomor Pendaftar", "Nama", "Jurusan", "Nilai", "Status")
+			fmt.Println("-----------------------------------------------------------------------------")
+			fmt.Printf("%-15d %-27s %-17s %-5d %-8s\n", A[i].noPendaftar, A[i].nama, A[i].jurusan, A[i].nilai, A[i].status)
+			fmt.Println("-----------------------------------------------------------------------------")
 		}
-		i++
+	}
+	if !found {
+		fmt.Println("Data status pendaftar tersebut tidak ditemukan!")
 	}
 }
 
 func selectUrutData(A *tabMhs, n int) {
 	var inp int
 
+	fmt.Println("=============================")
+	fmt.Println("Silahkan Pilih Menu Berikut: ")
 	fmt.Println("Urutkan berdasarkan:")
 	fmt.Println("1. Nama")
 	fmt.Println("2. Jurusan")
 	fmt.Println("3. Nilai")
-	fmt.Print("Masukkan pilihan anda: ")
+	fmt.Println("-----------------------------")
+	fmt.Println("4. Kembali")
+	fmt.Println("5. Keluar")
+	fmt.Println("=============================")
+	fmt.Print("Masukkan Pilihan Anda: ")
 	fmt.Scanln(&inp)
 
 	if inp == 1 {
@@ -395,6 +448,11 @@ func selectUrutData(A *tabMhs, n int) {
 		selUrutJurusan(A, n)
 	} else if inp == 3 {
 		selUrutNilai(A, n)
+	} else if inp == 4 {
+		main()
+	} else if inp == 5 {
+		fmt.Println("Terima Kasih!")
+		os.Exit(0)
 	} else {
 
 	}
@@ -403,48 +461,87 @@ func selectUrutData(A *tabMhs, n int) {
 func selUrutNama(A *tabMhs, n int) {
 	var masuk int
 
+	fmt.Println("=============================")
+	fmt.Println("Silahkan Pilih Menu Berikut: ")
 	fmt.Println("Urutkan secara:")
 	fmt.Println("1. Ascending")
 	fmt.Println("2. Descending")
-	fmt.Print("Masukkan pilihan anda: ")
+	fmt.Println("-----------------------------")
+	fmt.Println("3. Kembali")
+	fmt.Println("4. Keluar")
+	fmt.Println("=============================")
+	fmt.Print("Masukan Pilihan Anda: ")
 	fmt.Scanln(&masuk)
 
 	if masuk == 1 {
 		namaAsc(A, n)
 	} else if masuk == 2 {
 		namaDsc(A, n)
+	} else if masuk == 3 {
+		selectUrutData(A, n)
+	} else if masuk == 4 {
+		fmt.Println("Terima Kasih!")
+		os.Exit(0)
+	} else {
+
 	}
 }
 
 func selUrutJurusan(A *tabMhs, n int) {
 	var masuk int
 
+	fmt.Println("=============================")
+	fmt.Println("Silahkan Pilih Menu Berikut: ")
 	fmt.Println("Urutkan secara:")
 	fmt.Println("1. Ascending")
 	fmt.Println("2. Descending")
-	fmt.Print("Masukkan pilihan anda: ")
+	fmt.Println("-----------------------------")
+	fmt.Println("3. Kembali")
+	fmt.Println("4. Keluar")
+	fmt.Println("=============================")
+	fmt.Print("Masukan Pilihan Anda: ")
 	fmt.Scanln(&masuk)
 
 	if masuk == 1 {
 		jurusanAsc(A, n)
 	} else if masuk == 2 {
 		jurusanDsc(A, n)
+	} else if masuk == 3 {
+		selectUrutData(A, n)
+	} else if masuk == 4 {
+		fmt.Println("Terima Kasih!")
+		os.Exit(0)
+	} else {
+
 	}
 }
 
 func selUrutNilai(A *tabMhs, n int) {
 	var masuk int
 
+	fmt.Println("=============================")
+	fmt.Println("Silahkan Pilih Menu Berikut: ")
 	fmt.Println("Urutkan secara:")
 	fmt.Println("1. Ascending")
 	fmt.Println("2. Descending")
-	fmt.Print("Masukkan pilihan anda: ")
+	fmt.Println("-----------------------------")
+	fmt.Println("3. Kembali")
+	fmt.Println("4. Keluar")
+	fmt.Println("=============================")
+	fmt.Print("Masukan Pilihan Anda: ")
 	fmt.Scanln(&masuk)
 
 	if masuk == 1 {
 		nilaiAsc(A, n)
 	} else if masuk == 2 {
 		nilaiDsc(A, n)
+	} else if masuk == 3 {
+		selectUrutData(A, n)
+	} else if masuk == 4 {
+		fmt.Println("Terima Kasih!")
+		os.Exit(0)
+	} else {
+
 	}
 }
 
